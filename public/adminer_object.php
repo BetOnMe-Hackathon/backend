@@ -1,7 +1,7 @@
 <?php
 
 function adminer_object() {
-    class AdminerSoftware extends Adminer {
+    class AdminerSoftware extends Adminer\Adminer {
         public function credentials() {
             return [
                 config('database.connections.mysql.host'),
