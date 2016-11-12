@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Bid;
 use App\Models\Round;
 use App\Models\Insurer;
 use Carbon\Carbon;
@@ -50,35 +51,47 @@ class BidOnMeCommand extends Command
             new ConsoleHandler($this->getOutput())
         );
 
-        $rounds = Round::where('expires', '<', date('Y-m-d H:i:s'))
-            ->where('closed', false);
+        $run = 1;
 
-        foreach ($rounds->get() as $round) {
-            $r          = new Round;
-            $r->number  = $round->number + 1;
-            $r->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
-            $r->save();
+        while ($run <= 10) {
 
-            \Log::info('Created new round', [
-                'id'      => $r->id,
-                'expires' => $r->expires,
-            ]);
+            $this->log->info("Run {$run}");
 
-            $round->closed = true;
-            $round->save();
+            $rounds = Round::where('expires', '<', date('Y-m-d H:i:s'))
+                ->where('closed', false);
 
-            $insurers = Insurer::all();
+            $this->info("Found {$rounds->count()} rounds to process");
 
-            $insurers->each(function($insurer) use ($round) {
-                $bid              = new Bid;
-                $bid->round_id    = $r->id;
-                $bid->offer_price = null;
-                $bid->insurer_id  = $insurer->id;
+            foreach ($rounds->get() as $round) {
+                $r          = new Round;
+                $r->number  = $round->number + 1;
+                $r->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
+                $r->save();
 
-                $this->bid->transaction->bids()->save($bid);
+                \Log::info('Created new round', [
+                    'id'      => $r->id,
+                    'expires' => $r->expires,
+                ]);
 
-                dispatch(new ProcessNewBid($bid));
-            });
+                $round->closed = true;
+                $round->save();
+
+                $insurers = Insurer::all();
+
+                $insurers->each(function($insurer) use ($round) {
+                    $bid              = new Bid;
+                    $bid->round_id    = $r->id;
+                    $bid->offer_price = null;
+                    $bid->insurer_id  = $insurer->id;
+
+                    $this->bid->transaction->bids()->save($bid);
+
+                    dispatch(new ProcessNewBid($bid));
+                });
+            }
+
+            $run++;
+            sleep(60);
         }
     }
 }
