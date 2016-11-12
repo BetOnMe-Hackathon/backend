@@ -16,9 +16,8 @@ class Bids extends Migration
         Schema::create('bids', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaction_id')->unsigned();
-            $table->unsignedTinyInteger('round_number');
-            $table->timestamp('round_expires');
-            $table->string('insurer_id');
+            $table->integer('round_id')->unsigned();
+            $table->integer('insurer_id')->unsigned();
             $table->unsignedInteger('offer_price')->nullable();
             $table->timestamps();
 

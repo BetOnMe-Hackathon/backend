@@ -39,7 +39,7 @@ class ProcessNewBid extends Job
         $from = "{$this->bid->id_hash}@bidonme.eu";
         $to   = $this->bid->insurer->email;
 
-        if ($this->bid->round_number > 1) {
+        if ($this->bid->round->number > 1) {
             \Log::info('Recurring bid');
         }
 
@@ -47,7 +47,7 @@ class ProcessNewBid extends Job
             $from,
             $to,
             'Insurance quote request!',
-            "Transaction: {$transaction->id_hash}"
+            "Transaction: {$transaction->id_hash} <br>Round: {$this->bid->round->number}"
         );
     }
 }

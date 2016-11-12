@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Carbon\Carbon;
 use App\Models\Bid;
+use App\Models\Round;
 use App\Models\Insurer;
 use Postmark\PostmarkClient;
 use Vinkla\Hashids\Facades\Hashids;
@@ -35,9 +36,10 @@ class ProcessOfferFromInsurer extends Job
 
         if (null !== $this->bid) {
 
-            if ($this->bid->round_expires->timestamp > time()) {
-                \Log::info('Received and offer on expired bid');
-            }
+            // if ($this->bid->round->expires->timestamp < time()) {
+            //     \Log::info('Received and offer on expired bid');
+            //     return;
+            // }
 
             $body = $this->input['TextBody'];
             $lines = explode("\n", $body);
@@ -53,18 +55,32 @@ class ProcessOfferFromInsurer extends Job
             $this->bid->save();
 
             $bids = Bid::where('transaction_id', $this->bid->transaction->id)
-                ->where('round_number', $this->bid->round_number)
+                ->where('round_id', $this->bid->round->id)
                 ->whereNull('offer_price');
 
+            // If true, means round has closed, because all insurers have replied.
+            // We start a new round, unless there have been 3 rounds.
             if ($bids->count() === 0 && $this->bid->round_number < 3) {
+                $round          = new Round;
+                $round->number  = $this->bid->round->number + 1;
+                $round->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
+                $round->save();
+
+                \Log::info('Created new round', [
+                    'id'      => $round->id,
+                    'expires' => $round->expires,
+                ]);
+
+                $this->bid->round->closed = true;
+                $this->bid->round->save();
+
                 $insurers = Insurer::all();
 
-                $insurers->each(function($insurer) {
-                    $bid                = new Bid;
-                    $bid->round_number  = $this->bid->round_number + 1;
-                    $bid->offer_price   = null;
-                    $bid->round_expires = (Carbon::now())->addMinutes(2);
-                    $bid->insurer_id    = $insurer->id;
+                $insurers->each(function($insurer) use ($round) {
+                    $bid              = new Bid;
+                    $bid->round_id    = $round->id;
+                    $bid->offer_price = null;
+                    $bid->insurer_id  = $insurer->id;
 
                     $this->bid->transaction->bids()->save($bid);
 

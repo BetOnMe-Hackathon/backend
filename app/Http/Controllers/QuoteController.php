@@ -23,7 +23,7 @@ class QuoteController extends Controller
         $this->validate($request, [
             'customer_email'   => 'required|email',
             'bidding_duration' => 'required|numeric|min:86400|max:1209600',
-            'data'             => 'required',
+            'data'             => 'required|array',
         ]);
 
         $data = $request->input('data');

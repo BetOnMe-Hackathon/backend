@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Bid;
+use App\Models\Round;
 use App\Models\Insurer;
 use App\Models\Transaction;
 use App\Jobs\ProcessNewBid;
@@ -31,12 +32,16 @@ class ProcessNewTransaction extends Job
     {
         $insurers = Insurer::all();
 
-        $insurers->each(function($insurer) {
-            $bid                 = new Bid;
-            $bid->round_number   = 1;
-            $bid->offer_price    = null;
-            $bid->round_expires  = (Carbon::now())->addMinutes(2);
-            $bid->insurer_id     = $insurer->id;
+        $round          = new Round;
+        $round->number  = 1;
+        $round->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
+        $round->save();
+
+        $insurers->each(function($insurer) use ($round) {
+            $bid              = new Bid;
+            $bid->round_id    = $round->id;
+            $bid->offer_price = null;
+            $bid->insurer_id  = $insurer->id;
 
             $this->transaction->bids()->save($bid);
 

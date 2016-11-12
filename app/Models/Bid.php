@@ -27,6 +27,11 @@ class Bid extends Model
         return $this->belongsTo('App\Models\Transaction');
     }
 
+    public function round()
+    {
+        return $this->belongsTo('App\Models\Round');
+    }
+
     public function insurer()
     {
         return $this->belongsTo('App\Models\Insurer');

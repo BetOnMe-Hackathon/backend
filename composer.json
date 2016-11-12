@@ -5,21 +5,22 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.0.0",
+        "ext-mbstring": "*",
         "laravel/lumen-framework": "5.3.*",
         "illuminate/redis": "~5.3",
         "vlucas/phpdotenv": "~2.2",
-        "pusher/pusher-php-server": "^2.6",
         "vinkla/hashids": "^2.4",
-        "snowfire/mail": "2.*",
-        "guzzlehttp/guzzle": "^6.2",
         "wildbit/postmark-php": "^2.3",
-        "mailgun/mailgun-php": "^2.1"
+        "palanik/lumen-cors": "dev-master",
+        "symfony/monolog-bridge": "^3.1"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~5.0",
-        "mockery/mockery": "~0.9"
+        "mockery/mockery": "~0.9",
+        "heroku/heroku-buildpack-php": "*"
     },
     "autoload": {
         "psr-4": {
