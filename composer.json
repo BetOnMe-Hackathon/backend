@@ -7,7 +7,14 @@
     "require": {
         "php": ">=5.6.4",
         "laravel/lumen-framework": "5.3.*",
-        "vlucas/phpdotenv": "~2.2"
+        "illuminate/redis": "~5.3",
+        "vlucas/phpdotenv": "~2.2",
+        "pusher/pusher-php-server": "^2.6",
+        "vinkla/hashids": "^2.4",
+        "snowfire/mail": "2.*",
+        "guzzlehttp/guzzle": "^6.2",
+        "wildbit/postmark-php": "^2.3",
+        "mailgun/mailgun-php": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -2,30 +2,21 @@
 
 namespace App\Listeners;
 
-use App\Events\ExampleEvent;
+use App\Events\NewTransaction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ExampleListener
+class ExampleListener implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
+    use InteractsWithQueue;
+
     public function __construct()
     {
         //
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  ExampleEvent  $event
-     * @return void
-     */
-    public function handle(ExampleEvent $event)
+    public function handle(NewTransaction $event)
     {
-        //
+        dd($event);
     }
 }
