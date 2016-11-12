@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Jobs\SendFirstEmail;
 use App\Jobs\ProcessNewTransaction;
 
 class QuoteController extends Controller
@@ -39,6 +40,7 @@ class QuoteController extends Controller
 
         $transaction->save();
 
+        dispatch(new SendFirstEmail($transaction));
         dispatch(new ProcessNewTransaction($transaction));
 
         return [
