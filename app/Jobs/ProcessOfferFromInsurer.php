@@ -71,9 +71,6 @@ class ProcessOfferFromInsurer extends Job
                     'expires' => $round->expires,
                 ]);
 
-                $this->bid->round->closed = true;
-                $this->bid->round->save();
-
                 $insurers = Insurer::all();
 
                 $insurers->each(function($insurer) use ($round) {
@@ -86,6 +83,9 @@ class ProcessOfferFromInsurer extends Job
 
                     dispatch(new ProcessNewBid($bid));
                 });
+
+                $this->bid->round->closed = true;
+                $this->bid->round->save();
             }
         }
     }
