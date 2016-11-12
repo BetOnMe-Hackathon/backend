@@ -36,6 +36,9 @@
     "scripts": {
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
+        ],
+        "compile": [
+            "php artisan migrate --force"
         ]
     },
     "minimum-stability": "dev",

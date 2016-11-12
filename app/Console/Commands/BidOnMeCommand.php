@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Round;
+use App\Models\Insurer;
 use Carbon\Carbon;
+use Psr\Log\LoggerInterface;
 use Illuminate\Console\Command;
+use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 
 class BidOnMeCommand extends Command
 {
@@ -29,9 +32,11 @@ class BidOnMeCommand extends Command
      * @param  DripEmailer  $drip
      * @return void
      */
-    public function __construct()
+    public function __construct(LoggerInterface $log)
     {
         parent::__construct();
+
+        $this->log = $log;
     }
 
     /**
@@ -41,6 +46,10 @@ class BidOnMeCommand extends Command
      */
     public function handle()
     {
+        $this->log->pushHandler(
+            new ConsoleHandler($this->getOutput())
+        );
+
         $rounds = Round::where('expires', '<', date('Y-m-d H:i:s'))
             ->where('closed', false);
 
