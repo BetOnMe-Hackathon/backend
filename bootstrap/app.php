@@ -23,6 +23,18 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+$app->configureMonologUsing(function($monolog) {
+    $monolog->pushHandler(
+        new Monolog\Handler\StreamHandler('php://stderr')
+    );
+    if (true === env('APP_DEBUG')) {
+        $monolog->pushHandler(
+            new \Monolog\Handler\SyslogHandler('kasko-tech')
+        );
+    }
+    return $monolog;
+});
+
 $app->withFacades();
 
 $app->withEloquent();

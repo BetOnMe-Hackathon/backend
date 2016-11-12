@@ -78,7 +78,7 @@ class BidOnMeCommand extends Command
 
                 $insurers = Insurer::all();
 
-                $insurers->each(function($insurer) use ($round) {
+                $insurers->each(function($insurer) use ($r) {
                     $bid              = new Bid;
                     $bid->round_id    = $r->id;
                     $bid->offer_price = null;
