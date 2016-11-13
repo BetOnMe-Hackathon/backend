@@ -55,8 +55,12 @@ class ProcessNewBid extends Job
                 $your_price = $your_price->offer_price / 100;
             }
 
-            $best_price = $transaction->bids()->whereNotNull('offer_price')->orderBy('offer_price', 'asc')->first()->offer_price;
-            $best_price = $best_price / 100;
+            $best_price = $transaction->bids()->whereNotNull('offer_price')->orderBy('offer_price', 'asc')->first();
+            if (null === $best_price) {
+                $best_price = '';
+            } else {
+                $best_price = $best_price->offer_price / 100;
+            }
 
             $prev_round_offer = "<b>Previous round offers:</b><br>\n".
                 "Yours: {$your_price} <br>\n".
