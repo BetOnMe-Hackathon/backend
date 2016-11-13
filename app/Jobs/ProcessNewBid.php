@@ -76,7 +76,7 @@ class ProcessNewBid extends Job
             'Insurance quote request!',
             "Transaction: {$transaction->id_hash} <br>Round: {$this->bid->round->number} <br><br>".
             $prev_round_offer.
-            "Policy requirements:<br>".$data,
+            "Policy requirements:<br>".$data
         );
     }
 }
