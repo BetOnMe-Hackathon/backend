@@ -90,6 +90,7 @@ $app->middleware([
 |
 */
 
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Vinkla\Hashids\HashidsServiceProvider::class);
