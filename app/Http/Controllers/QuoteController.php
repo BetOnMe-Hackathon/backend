@@ -42,8 +42,6 @@ class QuoteController extends Controller
             ];
         }
 
-        ksort($rounds);
-
         return $rounds;
     }
 

@@ -36,10 +36,13 @@ class ProcessOfferFromInsurer extends Job
 
         if (null !== $this->bid) {
 
-            // if ($this->bid->round->expires->timestamp < time()) {
-            //     \Log::info('Received and offer on expired bid');
-            //     return;
-            // }
+            if ($this->bid->round->expires->timestamp < time()) {
+                \Log::info('Received and offer on expired bid', [
+                    'bid_id'   => $this->bid->id,
+                    'bid_hash' => $this->bid->id_hash,
+                ]);
+                return;
+            }
 
             $body = $this->input['TextBody'];
             $lines = explode("\n", $body);
