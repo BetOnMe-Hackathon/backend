@@ -52,16 +52,13 @@ class BidOnMeCommand extends Command
             new ConsoleHandler($this->getOutput())
         );
 
-        $run = 1;
+        while (true) {
 
-        while ($run <= 10) {
-
-            $this->log->info("Run {$run}");
+            $this->log->info("Started new loop...");
 
             $this->doNewRounds();
 
-            $run++;
-            sleep(60);
+            sleep(5);
         }
     }
 
@@ -74,8 +71,9 @@ class BidOnMeCommand extends Command
 
         foreach ($rounds->get() as $round) {
 
-            if ($round->number < 3) {
-                $transaction = Bid::where('round_id', $round->id)->first()->transaction;
+            $transaction = Bid::where('round_id', $round->id)->first()->transaction;
+
+            if ($round->number < 2) {
 
                 $r          = new Round;
                 $r->number  = $round->number + 1;
@@ -102,8 +100,11 @@ class BidOnMeCommand extends Command
 
                 $round->closed = true;
                 $round->save();
-            } else {
-                // \Log::info('Round closed');
+            } elseif ($round->number === 2) {
+                // \Log::info('Bidding on transaction closed', [
+                //     'transaction_id' => $transaction->id,
+                //     'transaction_hash' => $transaction->id_hash,
+                // ]);
 
                 // @todo: trigger bidding closed
             }
