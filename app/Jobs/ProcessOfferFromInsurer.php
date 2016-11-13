@@ -41,7 +41,7 @@ class ProcessOfferFromInsurer extends Job
                     'bid_id'   => $this->bid->id,
                     'bid_hash' => $this->bid->id_hash,
                 ]);
-                return;
+                // return;
             }
 
             $body = $this->input['TextBody'];
