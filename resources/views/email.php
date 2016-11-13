@@ -55,11 +55,7 @@ div.preheader
 																		<table bgcolor="" border="0" bordercolor="" cellpadding="0" cellspacing="0" width="100%">
 																			<tbody>
 																				<tr>
-																					<div><font face="Raleway, sans-serif"><span style="font-size: 16px; line-height: 26px;">Thank you for taking your time and signing up for a private property insurance price offer. We have negotated with insurers really hard so that you could get the best possible deal. Here it is:</span></font></div>
-
-																					<div>&nbsp;</div>
-                                        <div><span style="font-family: Raleway, sans-serif; font-size: 16px; line-height: 26px; text-align: -webkit-center; background-color: rgb(255, 255, 255);">Price: <strong>€ {{ price }}</strong><br>
-																					 </span></div>
+																					<div><font face="Raleway, sans-serif"><span style="font-size: 16px; line-height: 26px;">Thank you for your private property insurance! The relevant documentation has been attached to this email.</span></font></div>
 																						<div>&nbsp;</div>
 
 
@@ -73,15 +69,7 @@ div.preheader
 																<tbody>
 																	<tr>
 																		<td style="font-family:Raleway; font-size:13px">
-																		<table align="center" border="0" cellpadding="10" cellspacing="0" style="margin: 0px auto;">
-																			<tbody>
-																				<tr>
-																					<td align="center" bgcolor="#ffffff">
-																					<div><a class="caps" data-click-track-id="5823" href="{{links.offer}}" style="font-size: 16px; font-family: Raleway, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; border-radius: 3px; border-width: 12px 38px; border-style: solid; border-color: #28394d; display: block; background-color: #28394d;">Purchase the Policy</a></div>
-																					</td>
-																				</tr>
-																			</tbody>
-																		</table>
+																		
 																		</td>
 																	</tr>
 																</tbody>
