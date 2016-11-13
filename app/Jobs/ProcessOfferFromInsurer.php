@@ -48,6 +48,10 @@ class ProcessOfferFromInsurer extends Job
             $lines = explode("\n", $body);
 
             foreach ($lines as $line) {
+                Log::info('Line', [
+                    'data' => $line,
+                ]);
+
                 $offerPrice = $line * 100;
                 if ($offerPrice > 0) {
                     break;

@@ -52,16 +52,13 @@ class BidOnMeCommand extends Command
             new ConsoleHandler($this->getOutput())
         );
 
-        $run = 1;
+        while (true) {
 
-        while ($run <= 10) {
-
-            $this->log->info("Run {$run}");
+            $this->log->info("Started new loop...");
 
             $this->doNewRounds();
 
-            $run++;
-            sleep(60);
+            sleep(5);
         }
     }
 
