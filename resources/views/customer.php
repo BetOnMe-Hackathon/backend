@@ -4,13 +4,12 @@
 </head>
 <body bgcolor="#f2f2f4" class="bodybgcolor nopm" style="background: #f2f2f4; margin: 0; padding: 0;">
 <style type="text/css">
-div.preheader 
+div.preheader
 { display: none !important; }
 </style>
 <div class="preheader" style="font-size: 1px; display: none !important;">&nbsp;</div>
 
-<div> 
-<div><%body%></div>
+<div>
 
 <table border="0" cellpadding="0" cellspacing="0" class="full" style="width: 100%;">
 	<tbody>
@@ -58,7 +57,7 @@ div.preheader
 																				<tr>
 																					<div><font face="Raleway, sans-serif"><span style="font-size: 16px; line-height: 26px;">Thank you for taking your time and signing up for a private property insurance price offer. If you are interested in following how the insurers fight for you, here's a link to do so. But if you don't want to do that - we will email you once the victor is known.</span></font></div>
 																						<div>&nbsp;</div>
-																					
+
 
 																				<tr>
 												<td align="center" class="ctawidth">
@@ -87,7 +86,7 @@ div.preheader
 														</tr>
 																					</td>
 																				</tr>
-																			
+
 																			</tbody>
 																		</table>
 																		</td>

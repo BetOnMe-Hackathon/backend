@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Jobs\SendFirstEmail;
 use App\Jobs\ProcessNewTransaction;
 use Vinkla\Hashids\Facades\Hashids;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class QuoteController extends Controller
 {
@@ -23,6 +24,10 @@ class QuoteController extends Controller
     public function show(Request $request, $quoteId)
     {
         $transaction = Transaction::find(Hashids::decode($quoteId))->first();
+
+        if (null === $transaction) {
+            throw new NotFoundHttpException;
+        }
 
         $rounds = [];
         foreach ($transaction->bids as $bid) {
@@ -45,7 +50,7 @@ class QuoteController extends Controller
         return $rounds;
     }
 
-    // curl 'https://api.bidonme.eu/quotes' -H 'pragma: no-cache' -H 'origin: https://www.bidonme.eu' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.8,lv;q=0.6' -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36' -H 'content-type: application/x-www-form-urlencoded; charset=UTF-8' -H 'accept: */*' -H 'cache-control: no-cache' -H 'authority: api.bidonme.eu' -H 'referer: https://www.bidonme.eu/' --data 'customer_email=msipenko%40kasko.io&bidding_duration=86400&data%5Bproperty_type%5D=apartment&data%5Bconstruction_type%5D=brick&data%5Bproperty_size%5D=0&data%5Bdisaster%5D=9000&data%5Brobbery%5D=10000&data%5Bsecurity%5D=false&data%5Breconstruction%5D=true&data%5Bbuilding_year%5D=false' --compressed
+    // curl 'https://decc27d7.eu.ngrok.io/quotes' --data 'customer_email=msipenko%40kasko.io&bidding_duration=86400&data%5Bproperty_type%5D=apartment&data%5Bconstruction_type%5D=brick&data%5Bproperty_size%5D=0&data%5Bdisaster%5D=9000&data%5Brobbery%5D=10000&data%5Bsecurity%5D=false&data%5Breconstruction%5D=true&data%5Bbuilding_year%5D=false'
 
     public function getQuote(Request $request)
     {
@@ -63,7 +68,7 @@ class QuoteController extends Controller
 
         $transaction                 = new Transaction;
         $transaction->customer_email = $request->input('customer_email');
-        $transaction->bidding_ends   = $request->input('bidding_ends');
+        $transaction->bidding_ends   = time() + $request->input('bidding_duration');
         $transaction->data           = $data;
 
         $transaction->save();

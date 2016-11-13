@@ -4,13 +4,12 @@
 </head>
 <body bgcolor="#f2f2f4" class="bodybgcolor nopm" style="background: #f2f2f4; margin: 0; padding: 0;">
 <style type="text/css">
-div.preheader 
+div.preheader
 { display: none !important; }
 </style>
 <div class="preheader" style="font-size: 1px; display: none !important;">&nbsp;</div>
 
-<div> 
-<div><%body%></div>
+<div>
 
 <table border="0" cellpadding="0" cellspacing="0" class="full" style="width: 100%;">
 	<tbody>
@@ -62,7 +61,7 @@ div.preheader
                                         <div><span style="font-family: Raleway, sans-serif; font-size: 16px; line-height: 26px; text-align: -webkit-center; background-color: rgb(255, 255, 255);">Price: <strong>€ {{ price }}</strong><br>
 																					 </span></div>
 																						<div>&nbsp;</div>
-																					
+
 
 																				<tr>
 												<td align="center" class="ctawidth">
@@ -91,7 +90,7 @@ div.preheader
 														</tr>
 																					</td>
 																				</tr>
-																			
+
 																			</tbody>
 																		</table>
 																		</td>
