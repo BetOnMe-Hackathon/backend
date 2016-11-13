@@ -48,7 +48,7 @@ class ProcessOfferFromInsurer extends Job
             $lines = explode("\n", $body);
 
             foreach ($lines as $line) {
-                Log::info('Line', [
+                \Log::info('Line', [
                     'data' => $line,
                 ]);
 
