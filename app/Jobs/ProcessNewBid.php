@@ -71,17 +71,12 @@ class ProcessNewBid extends Job
         $data = str_replace("\n", "<br>\n", json_encode($transaction->data, JSON_PRETTY_PRINT));
 
         $sendResult = $this->email->sendEmail(
-            'bidonme@bidonme.eu',
+            $from,
             $to,
             'Insurance quote request!',
             "Transaction: {$transaction->id_hash} <br>Round: {$this->bid->round->number} <br><br>".
             $prev_round_offer.
             "Policy requirements:<br>".$data,
-            null,
-            null,
-            null,
-            null,
-            $from
         );
     }
 }
