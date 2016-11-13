@@ -7,11 +7,14 @@ use App\Models\Round;
 use App\Models\Insurer;
 use App\Models\Transaction;
 use App\Jobs\ProcessNewBid;
+use Postmark\PostmarkClient;
 use Carbon\Carbon;
 
 class SendFirstEmail extends Job
 {
     protected $transaction;
+
+    protected $email;
 
     /**
      * Create a new job instance.
@@ -33,14 +36,18 @@ class SendFirstEmail extends Job
     public function handle()
     {
         \Log::info('Sending first email to cutomer', [
-            'cutomer_email' => $transaction->customer_email,
+            'cutomer_email' => $this->transaction->customer_email,
         ]);
 
         $sendResult = $this->email->sendEmail(
             'noreply@bidonme.eu',
-            $transaction->customer_email,
-            "Welocome to insurance FightClub! 👊💥",
-            file_get_contents(basedir().'/resources/views/customer.php')
+            $this->transaction->customer_email,
+            "Welocome to insurance FightClub!",
+            str_replace(
+                '{{ link }}',
+                "https://www.bidonme.eu/fight.html?id={$this->transaction->id_hash}",
+                file_get_contents(base_path().'/resources/views/customer.php')
+            )
         );
     }
 }

@@ -74,33 +74,39 @@ class BidOnMeCommand extends Command
 
         foreach ($rounds->get() as $round) {
 
-            $transaction = Bid::where('round_id', $round->id)->first()->transaction;
+            if ($round->number < 3) {
+                $transaction = Bid::where('round_id', $round->id)->first()->transaction;
 
-            $r          = new Round;
-            $r->number  = $round->number + 1;
-            $r->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
-            $r->save();
+                $r          = new Round;
+                $r->number  = $round->number + 1;
+                $r->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));
+                $r->save();
 
-            \Log::info('Created new round', [
-                'id'      => $r->id,
-                'expires' => $r->expires,
-            ]);
+                \Log::info('Created new round', [
+                    'id'      => $r->id,
+                    'expires' => $r->expires,
+                ]);
 
-            $insurers = Insurer::all();
+                $insurers = Insurer::all();
 
-            $insurers->each(function($insurer) use ($r, $transaction) {
-                $bid              = new Bid;
-                $bid->round_id    = $r->id;
-                $bid->offer_price = null;
-                $bid->insurer_id  = $insurer->id;
+                $insurers->each(function($insurer) use ($r, $transaction) {
+                    $bid              = new Bid;
+                    $bid->round_id    = $r->id;
+                    $bid->offer_price = null;
+                    $bid->insurer_id  = $insurer->id;
 
-                $transaction->bids()->save($bid);
+                    $transaction->bids()->save($bid);
 
-                dispatch(new ProcessNewBid($bid));
-            });
+                    dispatch(new ProcessNewBid($bid));
+                });
 
-            $round->closed = true;
-            $round->save();
+                $round->closed = true;
+                $round->save();
+            } else {
+                \Log::info('Round closed');
+
+                // @todo: trigger bidding closed
+            }
         }
     }
 }

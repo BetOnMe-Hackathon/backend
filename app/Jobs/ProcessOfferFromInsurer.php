@@ -86,6 +86,10 @@ class ProcessOfferFromInsurer extends Job
 
                 $this->bid->round->closed = true;
                 $this->bid->round->save();
+            } else {
+                \Log::info('Round closed');
+
+                // @todo: trigger bidding closed
             }
         }
     }

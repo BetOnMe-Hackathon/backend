@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Jobs\SendFirstEmail;
 use App\Jobs\ProcessNewTransaction;
+use Vinkla\Hashids\Facades\Hashids;
 
 class QuoteController extends Controller
 {
@@ -17,6 +18,24 @@ class QuoteController extends Controller
     public function __construct()
     {
         //
+    }
+
+    public function show(Request $request, $quoteId)
+    {
+        $transaction = Transaction::find(Hashids::decode($quoteId))->first();
+
+        $rounds = [];
+        foreach ($transaction->bids as $bid) {
+            $rounds[$bid->round->number][] = [
+                'offer_id'    => $bid->id_hash,
+                'insurer_id'  => $bid->insurer->id_hash,
+                'offer_price' => $bid->offer_price,
+            ];
+        }
+
+        ksort($rounds);
+
+        return $rounds;
     }
 
     public function getQuote(Request $request)
