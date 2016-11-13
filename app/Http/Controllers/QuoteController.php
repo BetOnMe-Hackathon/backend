@@ -26,10 +26,19 @@ class QuoteController extends Controller
 
         $rounds = [];
         foreach ($transaction->bids as $bid) {
-            $rounds[$bid->round->number][] = [
+            $rounds[$bid->round->number] = [
+                'expires' => $bid->round->expires->timestamp,
+                'bids'    => [],
+            ];
+        }
+
+        foreach ($transaction->bids as $bid) {
+            $rounds[$bid->round->number]['bids'][] = [
                 'offer_id'    => $bid->id_hash,
-                'insurer_id'  => $bid->insurer->id_hash,
                 'offer_price' => $bid->offer_price,
+                'insurer' => [
+                    'id' => $bid->insurer->id_hash,
+                ],
             ];
         }
 
