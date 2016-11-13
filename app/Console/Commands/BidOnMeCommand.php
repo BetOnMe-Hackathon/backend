@@ -71,8 +71,9 @@ class BidOnMeCommand extends Command
 
         foreach ($rounds->get() as $round) {
 
+            $transaction = Bid::where('round_id', $round->id)->first()->transaction;
+
             if ($round->number < 3) {
-                $transaction = Bid::where('round_id', $round->id)->first()->transaction;
 
                 $r          = new Round;
                 $r->number  = $round->number + 1;
@@ -100,7 +101,10 @@ class BidOnMeCommand extends Command
                 $round->closed = true;
                 $round->save();
             } else {
-                // \Log::info('Round closed');
+                \Log::info('Bidding on transaction closed', [
+                    'transaction_id' => $transaction->id,
+                    'transaction_hash' => $transaction->id_hash,
+                ]);
 
                 // @todo: trigger bidding closed
             }
