@@ -1,10 +1,10 @@
 <?php
 
 if (env('REDIS_URL')) {
-    $url = parse_url(env('REDIS_URL'));
-    putenv('REDIS_HOST='.$url['host']);
-    putenv('REDIS_PORT='.$url['port']);
-    putenv('REDIS_PASSWORD='.$url['pass']);
+    $red = parse_url(env('REDIS_URL'));
+    putenv('REDIS_HOST='.$red['host']);
+    putenv('REDIS_PORT='.$red['port']);
+    putenv('REDIS_PASSWORD='.$red['pass']);
 }
 
 $url = parse_url(env('CLEARDB_DATABASE_URL'));
@@ -132,7 +132,8 @@ return [
         'default' => [
             'host'     => env('REDIS_HOST', '127.0.0.1'),
             'port'     => env('REDIS_PORT', 6379),
-            'database' => 0,
+            'database' => env('REDIS_DATABASE', 0),
+            'password' => env('REDIS_PASSWORD', null),
         ],
 
     ],

@@ -103,7 +103,7 @@ class BidOnMeCommand extends Command
                 $round->closed = true;
                 $round->save();
             } else {
-                \Log::info('Round closed');
+                // \Log::info('Round closed');
 
                 // @todo: trigger bidding closed
             }
