@@ -53,9 +53,7 @@ class ProcessNewBid extends Job
                 $your_price = 'None given';
             } else {
                 $your_price = $your_price->offer_price / 100;
-
             }
-
 
             $best_price = $transaction->bids()->whereNotNull('offer_price')->orderBy('offer_price', 'asc')->first()->offer_price;
             $best_price = $best_price / 100;

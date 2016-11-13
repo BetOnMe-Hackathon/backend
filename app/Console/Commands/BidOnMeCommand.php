@@ -100,7 +100,7 @@ class BidOnMeCommand extends Command
 
                 $round->closed = true;
                 $round->save();
-            } else {
+            } elseif ($round->number === 3) {
                 \Log::info('Bidding on transaction closed', [
                     'transaction_id' => $transaction->id,
                     'transaction_hash' => $transaction->id_hash,
