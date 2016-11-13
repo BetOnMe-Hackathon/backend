@@ -40,7 +40,7 @@ class SendFirstEmail extends Job
         ]);
 
         $sendResult = $this->email->sendEmail(
-            'noreply@bidonme.eu',
+            'BidOnMe <noreply@bidonme.eu>',
             $this->transaction->customer_email,
             "Welocome to insurance FightClub!",
             str_replace(
