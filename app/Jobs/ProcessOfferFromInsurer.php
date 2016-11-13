@@ -66,8 +66,8 @@ class ProcessOfferFromInsurer extends Job
                 ->whereNull('offer_price');
 
             // If true, means round has closed, because all insurers have replied.
-            // We start a new round, unless there have been 3 rounds.
-            if ($bids->count() === 0 && $this->bid->round_number < 3) {
+            // We start a new round, unless there have been 2 rounds.
+            if ($bids->count() === 0 && $this->bid->round_number < 2) {
                 $round          = new Round;
                 $round->number  = $this->bid->round->number + 1;
                 $round->expires = (Carbon::now())->addMinutes(env('ROUND_DURATION'));

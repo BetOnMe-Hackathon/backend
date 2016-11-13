@@ -73,7 +73,7 @@ class BidOnMeCommand extends Command
 
             $transaction = Bid::where('round_id', $round->id)->first()->transaction;
 
-            if ($round->number < 3) {
+            if ($round->number < 2) {
 
                 $r          = new Round;
                 $r->number  = $round->number + 1;
@@ -100,7 +100,7 @@ class BidOnMeCommand extends Command
 
                 $round->closed = true;
                 $round->save();
-            } elseif ($round->number === 3) {
+            } elseif ($round->number === 2) {
                 \Log::info('Bidding on transaction closed', [
                     'transaction_id' => $transaction->id,
                     'transaction_hash' => $transaction->id_hash,
