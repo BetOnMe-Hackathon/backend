@@ -46,7 +46,7 @@ class ProcessNewBid extends Job
             $your_price = $transaction->bids()->where('insurer_id', $this->bid->insurer_id)->orderBy('id', 'desc')->get()[1]->offer_price;
             $your_price = $your_price / 100;
 
-            $best_price = $transaction->bids()->orderBy('offer_price', 'asc')->first()->offer_price;
+            $best_price = $transaction->bids()->whereNotNull('offer_price')->orderBy('offer_price', 'asc')->first()->offer_price;
             $best_price = $best_price / 100;
 
             $prev_round_offer = "<b>Previous round offers:</b><br>\n".
