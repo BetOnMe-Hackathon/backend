@@ -42,7 +42,7 @@ class SendFirstEmail extends Job
         $sendResult = $this->email->sendEmail(
             'noreply@bidonme.eu',
             $this->transaction->customer_email,
-            "Welocome to insurance FightClub! 👊💥",
+            "Welocome to insurance FightClub!",
             str_replace(
                 '{{ link }}',
                 "https://www.bidonme.eu/fight.html?id={$this->transaction->id_hash}",
