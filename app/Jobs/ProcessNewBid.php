@@ -66,7 +66,7 @@ class ProcessNewBid extends Job
 
         $data = str_replace("\n", "<br>\n", json_encode($transaction->data, JSON_PRETTY_PRINT));
 
-        $sendResult = $this->email->](
+        $sendResult = $this->email->sendEmail(
             'bidonme@bidonme.eu',
             $to,
             'Insurance quote request!',
