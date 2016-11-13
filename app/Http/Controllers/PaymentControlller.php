@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bid;
+use App\Jobs\PaymentSuccessful;
 use Stripe\Error\InvalidRequest;
 use Stripe\Stripe as StripeClient;
 use Stripe\Charge as StripeCharge;
@@ -43,12 +44,17 @@ class PaymentControlller extends Controller
         $amount        = $bid->offer_price;
         $transction_id = $bid->transaction->id_hash;
 
+        \Log::info('Payment for bid', [$bid]);
+        \Log::info('Amount', [
+            'amount' => $amount,
+        ]);
+
         StripeClient::setApiKey(env('STRIPE_SECRET_KEY'));
 
         try {
             $charge = StripeCharge::create([
                 'amount'   => $amount,
-                'currency' => 'eur',
+                'currency' => 'usd',
                 'source'   => $request->input('token'),
                 'metadata' => [
                     'transaction_id' => $transction_id,
@@ -69,7 +75,7 @@ class PaymentControlller extends Controller
             throw new BadRequestHttpException('Card declined');
         }
 
-        // @todo: dispatch payment success here
+        dispatch(new PaymentSuccessful($bid));
 
         return [
             'status' => 'ok',
