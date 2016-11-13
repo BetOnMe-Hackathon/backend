@@ -43,11 +43,14 @@ class ProcessNewBid extends Job
             \Log::info('Recurring bid');
         }
 
+        $data = str_replace("\n", "<br>\n", json_encode($transaction->data, JSON_PRETTY_PRINT));
+
         $sendResult = $this->email->sendEmail(
             $from,
             $to,
             'Insurance quote request!',
-            "Transaction: {$transaction->id_hash} <br>Round: {$this->bid->round->number}"
+            "Transaction: {$transaction->id_hash} <br>Round: {$this->bid->round->number} <br><br>".
+            "Policy requirements:<br>".$data
         );
     }
 }
